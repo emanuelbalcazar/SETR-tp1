@@ -3,17 +3,17 @@
  * @author Carlos Emanuel Balcazar
  * Septiembre 2018
  */
-const allTasks = require('./tasks.json');
+const systems = require('./tasks.json');
 
-// resuelvo las tareas de cada subsistemas.
-for (const key in allTasks) {
-    if (allTasks.hasOwnProperty(key)) {
-        const element = allTasks[key];
+// resuelvo las tareas de cada sistema.
+for (const key in systems) {
+    if (systems.hasOwnProperty(key)) {
+        const element = systems[key];
         resolve(key, element);
     }
 }
 
-// resuelvo para cada subsistema sus tareas asociadas.
+// resuelvo para cada sistema sus tareas asociadas.
 function resolve(taskName, tasks) {
     console.log('\nPUNTO: %s', taskName);
     console.log('\nHiperperiodo: %s', hyperperiod(tasks));
