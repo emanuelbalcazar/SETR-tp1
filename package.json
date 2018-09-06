@@ -1,0 +1,20 @@
+{
+    "name": "setr-tp1",
+    "version": "1.0.0",
+    "description": "Implementacion del trabajo practico 1 de SETR",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./src/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/emanuelbalcazar/SETR-tp1.git"
+    },
+    "author": "Carlos Emanuel Balcazar",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/emanuelbalcazar/SETR-tp1/issues"
+    },
+    "homepage": "https://github.com/emanuelbalcazar/SETR-tp1#readme"
+}
