@@ -3,7 +3,7 @@
  * @author Carlos Emanuel Balcazar
  * Septiembre 2018
  */
-const allTasks = require('./tasks.json').tasks;
+const allTasks = require('./tasks.json');
 
 // resuelvo las tareas de cada subsistemas.
 for (const key in allTasks) {
@@ -65,5 +65,5 @@ function BINI(tasks) {
 }
 
 function RTA2(tasks) {
-    
+
 }
