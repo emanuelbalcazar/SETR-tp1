@@ -14,8 +14,8 @@ for (const key in systems) {
 }
 
 // resuelvo para cada sistema sus tareas asociadas.
-function resolve(taskName, tasks) {
-    console.log('\nPUNTO: %s', taskName);
+function resolve(systemName, tasks) {
+    console.log('\nPUNTO: %s', systemName);
     console.log('\nHiperperiodo: %s', hyperperiod(tasks));
     console.log('\nFactor de Utilizacion: %s', FU(tasks));
     console.log('\nCota de Liu: %s', LIU(tasks));
