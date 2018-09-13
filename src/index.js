@@ -20,6 +20,7 @@ function resolve(systemName, tasks) {
     console.log('\nFactor de Utilizacion: %s', FU(tasks));
     console.log('\nCota de Liu: %s', LIU(tasks));
     console.log('\nCota de Bini: %s', BINI(tasks));
+    console.log('\nTiempo de Respuesta:\n', RTA2(tasks));
     console.log('\n----------------------------------------------------------');
 }
 
@@ -64,6 +65,34 @@ function BINI(tasks) {
     return result.toString().substring(0, 5);
 }
 
+// Tiempo de respuesta con RTA2
 function RTA2(tasks) {
 
+    var time = 0;
+    var response = [];
+
+    for (let i = 0; i < tasks.length; i++) {
+        var task = tasks[i];
+        time = time + task.c;
+
+        while (true) {
+            var w = task.c;
+
+            for (let j = 0; j < i; j++) {
+                w += Math.ceil(time / task.t) * task.c;
+            }
+
+            if (time == w)
+                break;
+
+            if (w > task.d)
+                break;
+
+            time = w;
+        }
+
+        response.push({ task: task, time: time });
+    }
+
+    return response;
 }
