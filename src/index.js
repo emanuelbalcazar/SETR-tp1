@@ -17,7 +17,7 @@ for (const key in systems) {
 function resolve(systemName, tasks) {
     console.log(`\nPunto: ${systemName}`);
     console.log(`\nHiperperiodo: ${hyperperiod(tasks)}`);
-    console.log(`\nFactor de Utilizacion: ${FU(tasks)}`);
+    console.log(`\nFactor de Utilizacion: ${FU(tasks)} %`);
     //console.log(`\nCota de Liu: ${LIU(tasks)}`);
     //console.log(`\nCota de Bini: ${BINI(tasks)}`);
     //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
