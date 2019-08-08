@@ -9,7 +9,7 @@ const systems = require('./tasks.json');
 for (const key in systems) {
     if (systems.hasOwnProperty(key)) {
         const element = systems[key];
-        //resolve(key, element);
+        resolve(key, element);
     }
 }
 
@@ -18,8 +18,8 @@ function resolve(systemName, tasks) {
     console.log(`\nPunto: ${systemName}`);
     console.log(`\nHiperperiodo: ${hyperperiod(tasks)}`);
     console.log(`\nFactor de Utilizacion: ${FU(tasks)}`);
-    console.log(`\nCota de Liu: ${LIU(tasks)}`);
-    console.log(`\nCota de Bini: ${BINI(tasks)}`);
+    //console.log(`\nCota de Liu: ${LIU(tasks)}`);
+    //console.log(`\nCota de Bini: ${BINI(tasks)}`);
     //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
     console.log('\n----------------------------------------------------------');
 }
@@ -29,31 +29,31 @@ function resolve(systemName, tasks) {
  * El Hiperperiodo es el minimo comun multiplo de los periodos (t) de las tareas.
  */
 function hyperperiod(tasks) {
-    var result = tasks[0].t;
-
-    for (let i = 1; i < tasks.length; i++) {
-        result *= tasks[i].t;
-    }
-
+    let periods = tasks.map(task => { return task.t; });
+    let result = helper.MCMfromArray(periods);
     return result;
 }
 
-// 2 - factor de utilizacion.
+/**
+ * 2 - Calcula el Factor de Utilizacion del sistema.
+ * Mide cuan utilizado se encuentra el recurso como la sumatoria
+ * del peor tiempo de ejecucion (C) sobre el periodo de la tarea (T).
+ */
 function FU(tasks) {
-    var result = 0;
+    let result = 0;
 
     for (let i = 0; i < tasks.length; i++) {
         let number = tasks[i].c / tasks[i].t;
         result += number;
     }
 
-    return result.toString().substring(0, 5);
+    return Math.ceil(result * 100) / 100;
 }
 
 // 3 - cota de liu.
 function LIU(tasks) {
     var result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
-    return result.toString().substring(0, 5);
+    return Math.ceil(result * 100) / 100;
 }
 
 // 4 - cota de bini.
