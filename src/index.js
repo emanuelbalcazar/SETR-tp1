@@ -1,30 +1,33 @@
 /**
  * @description Implementaciones para el trabajo practico N1 de Sistemas Embebidos de Tiempo Real.
  * @author Carlos Emanuel Balcazar
- * Septiembre 2018
  */
+const helper = require('./helper');
 const systems = require('./tasks.json');
 
 // resuelvo las tareas de cada sistema.
 for (const key in systems) {
     if (systems.hasOwnProperty(key)) {
         const element = systems[key];
-        resolve(key, element);
+        //resolve(key, element);
     }
 }
 
 // resuelvo para cada sistema sus tareas asociadas.
 function resolve(systemName, tasks) {
-    console.log('\nPUNTO: %s', systemName);
-    console.log('\nHiperperiodo: %s', hyperperiod(tasks));
-    console.log('\nFactor de Utilizacion: %s', FU(tasks));
-    console.log('\nCota de Liu: %s', LIU(tasks));
-    console.log('\nCota de Bini: %s', BINI(tasks));
-    console.log('\nTiempo de Respuesta:\n', RTA2(tasks));
+    console.log(`\nPunto: ${systemName}`);
+    console.log(`\nHiperperiodo: ${hyperperiod(tasks)}`);
+    console.log(`\nFactor de Utilizacion: ${FU(tasks)}`);
+    console.log(`\nCota de Liu: ${LIU(tasks)}`);
+    console.log(`\nCota de Bini: ${BINI(tasks)}`);
+    //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
     console.log('\n----------------------------------------------------------');
 }
 
-// 1 - calcula el hiperperiodo de las tareas.
+/**
+ * 1 - Calcula el Hiperperiodo de las tareas.
+ * El Hiperperiodo es el minimo comun multiplo de los periodos (t) de las tareas.
+ */
 function hyperperiod(tasks) {
     var result = tasks[0].t;
 
@@ -96,3 +99,4 @@ function RTA2(tasks) {
 
     return response;
 }
+
