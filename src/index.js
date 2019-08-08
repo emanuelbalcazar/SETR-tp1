@@ -5,7 +5,7 @@
 const helper = require('./helper');
 const systems = require('./tasks.json');
 
-// resuelvo las tareas de cada sistema.
+// resuelvo los todos los sistemas.
 for (const key in systems) {
     if (systems.hasOwnProperty(key)) {
         const element = systems[key];
@@ -13,7 +13,11 @@ for (const key in systems) {
     }
 }
 
-// resuelvo para cada sistema sus tareas asociadas.
+/**
+ * Resuelvo para cada sistema sus tareas asociadas.
+ * @param {String} systemName
+ * @param {Array} tasks
+ */
 function resolve(systemName, tasks) {
     console.log(`\nPunto: ${systemName}`);
     console.log(`\nHiperperiodo: ${hyperperiod(tasks)}`);
