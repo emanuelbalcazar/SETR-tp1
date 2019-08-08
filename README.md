@@ -49,3 +49,7 @@ d) S(3) = {(2,5,5), (1,7,7), (2,10,10), (2,17,17)}
 e) S(4) = {(2,5,5), (1,8,8), (2,10,10), (2,15,15)}
 
 f) S(5) = {(2,5,5), (1,6,6), (1,7,7), (2,10,10), (2,30,30)}
+
+## Despliegue
+
+Ejecutar `npm start` en la raiz del proyecto mediante la linea de comandos.
