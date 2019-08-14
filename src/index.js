@@ -22,12 +22,13 @@ function resolve(systemName, tasks) {
     let hiperperiodo = hyperperiod(tasks);
     let fu = FU(tasks);
     let liu = LIU(fu, tasks);
+    let bini = BINI(tasks);
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\nHiperperiodo: ${hiperperiodo}`);
     console.log(`\nFactor de Utilizacion: ${fu} %`);
     console.log(`\nCota de Liu para RM: ${liu}`);
-    //console.log(`\nCota de Bini: ${BINI(tasks)}`);
+    console.log(`\nCota de Bini: ${bini}`);
     //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
     console.log('\n----------------------------------------------------------');
 }
@@ -71,16 +72,23 @@ function LIU(fu, tasks) {
     return result.toString().substring(0, 5) + " - " + planificable;
 }
 
-// 4 - cota de bini.
+/**
+ *  4 - La cota de BINI.
+ * Sea un conjunto de n tareas, donde cada tarea esta 
+ * caracterizada por su factor de utilización FU i. Entonces, si el 
+ * conjunto es planificable por RM cumple
+ * */
 function BINI(tasks) {
-    var result = 1;
+    let result = 1;
 
     for (let i = 0; i < tasks.length; i++) {
         let number = (tasks[i].c / tasks[i].t) + 1;
         result *= number;
     }
 
-    return result.toString().substring(0, 5);
+    let planificable = (result <= 2) ? "Es planificable por RM y DM" : "No se sabe si es planificable";
+
+    return result.toString().substring(0, 5) + " - " + planificable;
 }
 
 // Tiempo de respuesta con RTA2
