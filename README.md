@@ -3,7 +3,7 @@
 
 ## Trabajo Practico N1
 
-Author: Carlos Emanuel Balcazar
+Autor: Carlos Emanuel Balcazar
 
 ## Consigna
 
