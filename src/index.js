@@ -22,7 +22,7 @@ function resolve(systemName, tasks) {
     console.log(`\nPunto: ${systemName}`);
     console.log(`\nHiperperiodo: ${hyperperiod(tasks)}`);
     console.log(`\nFactor de Utilizacion: ${FU(tasks)} %`);
-    //console.log(`\nCota de Liu: ${LIU(tasks)}`);
+    console.log(`\nCota de Liu para RM: ${LIU(tasks)}`);
     //console.log(`\nCota de Bini: ${BINI(tasks)}`);
     //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
     console.log('\n----------------------------------------------------------');
@@ -54,9 +54,14 @@ function FU(tasks) {
     return Math.ceil(result * 100) / 100;
 }
 
-// 3 - cota de liu.
+/**
+ * 3 - La cota de Liu para RM.
+ * Para un conjunto de n tareas ordenadas por prioridades 
+ * fijas, la menor cota superior en la utilización de procesador es
+ * condicion necesaria pero no suficiente.
+ */
 function LIU(tasks) {
-    var result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
+    let result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
     return Math.ceil(result * 100) / 100;
 }
 
