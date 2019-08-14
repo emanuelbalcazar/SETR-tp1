@@ -19,10 +19,14 @@ for (const key in systems) {
  * @param {Array} tasks
  */
 function resolve(systemName, tasks) {
+    let hiperperiodo = hyperperiod(tasks);
+    let fu = FU(tasks);
+    let liu = LIU(fu, tasks);
+
     console.log(`\nPunto: ${systemName}`);
-    console.log(`\nHiperperiodo: ${hyperperiod(tasks)}`);
-    console.log(`\nFactor de Utilizacion: ${FU(tasks)} %`);
-    console.log(`\nCota de Liu para RM: ${LIU(tasks)}`);
+    console.log(`\nHiperperiodo: ${hiperperiodo}`);
+    console.log(`\nFactor de Utilizacion: ${fu} %`);
+    console.log(`\nCota de Liu para RM: ${liu}`);
     //console.log(`\nCota de Bini: ${BINI(tasks)}`);
     //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
     console.log('\n----------------------------------------------------------');
@@ -59,10 +63,12 @@ function FU(tasks) {
  * Para un conjunto de n tareas ordenadas por prioridades 
  * fijas, la menor cota superior en la utilización de procesador es
  * condicion necesaria pero no suficiente.
+ * FU <= LIU es planificable, en caso contrario no se sabe.
  */
-function LIU(tasks) {
+function LIU(fu, tasks) {
     let result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
-    return Math.ceil(result * 100) / 100;
+    let planificable = (fu <= result) ? "Es planificable por RM" : "No se sabe si es planificable";
+    return result.toString().substring(0, 5) + " - " + planificable;
 }
 
 // 4 - cota de bini.
