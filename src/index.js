@@ -23,13 +23,14 @@ function resolve(systemName, tasks) {
     let fu = FU(tasks);
     let liu = LIU(fu, tasks);
     let bini = BINI(tasks);
+    let rta2 = JSON.stringify(RTA(tasks));
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\nHiperperiodo: ${hiperperiodo}`);
     console.log(`\nFactor de Utilizacion: ${fu} %`);
     console.log(`\nCota de Liu para RM: ${liu}`);
     console.log(`\nCota de Bini: ${bini}`);
-    //console.log(`\nTiempo de Respuesta: ${RTA2(tasks)}`);
+    console.log(`\nTiempos de Respuesta: ${rta2}`);
     console.log('\n----------------------------------------------------------');
 }
 
@@ -68,8 +69,8 @@ function FU(tasks) {
  */
 function LIU(fu, tasks) {
     let result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
-    let planificable = (fu <= result) ? "Es planificable por RM" : "No se sabe si es planificable";
-    return result.toString().substring(0, 5) + " - " + planificable;
+    let planned = (fu <= result) ? "Es planificable por RM" : "No se sabe si es planificable";
+    return result.toString().substring(0, 5) + " - " + planned;
 }
 
 /**
@@ -86,26 +87,29 @@ function BINI(tasks) {
         result *= number;
     }
 
-    let planificable = (result <= 2) ? "Es planificable por RM y DM" : "No se sabe si es planificable";
+    let planned = (result <= 2) ? "Es planificable por RM y DM" : "No se sabe si es planificable";
 
-    return result.toString().substring(0, 5) + " - " + planificable;
+    return result.toString().substring(0, 5) + " - " + planned;
 }
 
-// Tiempo de respuesta con RTA2
-function RTA2(tasks) {
+/**
+ * Tiempo de respuesta para cada tarea con RTA.
+ */
+function RTA(tasks) {
+    let time = tasks[0].c;
+    let response = [];
 
-    var time = 0;
-    var response = [];
+    response.push({ task: 0, time: time });
 
-    for (let i = 0; i < tasks.length; i++) {
-        var task = tasks[i];
+    for (let i = 1; i < tasks.length; i++) {
+        const task = tasks[i];
         time = time + task.c;
 
         while (true) {
-            var w = task.c;
+            let w = task.c;
 
             for (let j = 0; j < i; j++) {
-                w += Math.ceil(time / task.t) * task.c;
+                w += Math.ceil(time / tasks[j].t) * tasks[j].c;
             }
 
             if (time == w)
@@ -115,9 +119,10 @@ function RTA2(tasks) {
                 break;
 
             time = w;
+            w = 0;
         }
 
-        response.push({ task: task, time: time });
+        response.push({ task: i, time: time });
     }
 
     return response;
