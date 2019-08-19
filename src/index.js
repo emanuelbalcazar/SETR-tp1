@@ -23,14 +23,16 @@ function resolve(systemName, tasks) {
     let fu = FU(tasks);
     let liu = LIU(fu, tasks);
     let bini = BINI(tasks);
-    let rta2 = JSON.stringify(RTA(tasks));
+    let rta = JSON.stringify(RTA(tasks));
+    let planable = isPlanable(fu, liu);
 
     console.log(`\nPunto: ${systemName}`);
-    console.log(`\nHiperperiodo: ${hiperperiodo}`);
-    console.log(`\nFactor de Utilizacion: ${fu} %`);
-    console.log(`\nCota de Liu para RM: ${liu}`);
-    console.log(`\nCota de Bini: ${bini}`);
-    console.log(`\nTiempos de Respuesta: ${rta2}`);
+    console.log(`\n1- Hiperperiodo: ${hiperperiodo}`);
+    console.log(`\n2- Factor de Utilizacion: ${fu} %`);
+    console.log(`\n3- Cota de Liu para RM: ${liu}`);
+    console.log(`\n4- Cota de Bini: ${bini}`);
+    console.log(`\n5- Tiempos de Respuesta: ${rta}`);
+    console.log(`\n6- Es Planificable?: ${planable}`);
     console.log('\n----------------------------------------------------------');
 }
 
@@ -69,8 +71,7 @@ function FU(tasks) {
  */
 function LIU(fu, tasks) {
     let result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
-    let planned = (fu <= result) ? "Es planificable por RM" : "No se sabe si es planificable";
-    return result.toString().substring(0, 5) + " - " + planned;
+    return Math.ceil(result * 100) / 100;
 }
 
 /**
@@ -87,19 +88,17 @@ function BINI(tasks) {
         result *= number;
     }
 
-    let planned = (result <= 2) ? "Es planificable por RM y DM" : "No se sabe si es planificable";
-
-    return result.toString().substring(0, 5) + " - " + planned;
+    return Math.ceil(result * 100) / 100;
 }
 
 /**
- * Tiempo de respuesta para cada tarea con RTA.
+ * 5 - Tiempo de respuesta para cada tarea con RTA.
  */
 function RTA(tasks) {
     let time = tasks[0].c;
     let response = [];
 
-    response.push({ task: 0, time: time });
+    response.push({ task: 1, time: time });
 
     for (let i = 1; i < tasks.length; i++) {
         const task = tasks[i];
@@ -122,9 +121,16 @@ function RTA(tasks) {
             w = 0;
         }
 
-        response.push({ task: i, time: time });
+        response.push({ task: i + 1, time: time });
     }
 
     return response;
 }
 
+function isPlanable(fu, liu) {
+    let result = (fu <= liu) ? "Es planificable por RM" : "No se sabe si es planificable por RM";
+    result += " - ";
+    result += (fu <= 1) ? "Es planificable por EDF" : "No se sabe si es planificable por EDF";
+    
+    return result;
+}
