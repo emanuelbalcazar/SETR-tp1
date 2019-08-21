@@ -21,10 +21,11 @@ for (const key in systems) {
 function resolve(systemName, tasks) {
     let hiperperiodo = hyperperiod(tasks);
     let fu = FU(tasks);
-    let liu = LIU(fu, tasks);
+    let liu = LIU(tasks);
     let bini = BINI(tasks);
     let rta = JSON.stringify(RTA(tasks));
     let planable = isPlanable(fu, liu);
+    let slot = JSON.stringify(firstEmptySlot(tasks));
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\n1- Hiperperiodo: ${hiperperiodo}`);
@@ -33,6 +34,7 @@ function resolve(systemName, tasks) {
     console.log(`\n4- Cota de Bini: ${bini}`);
     console.log(`\n5- Tiempos de Respuesta: ${rta}`);
     console.log(`\n6- Es Planificable?: ${planable}`);
+    console.log(`\n7- Primera ranura vacia: ${slot}`);
     console.log('\n----------------------------------------------------------');
 }
 
@@ -69,7 +71,7 @@ function FU(tasks) {
  * condicion necesaria pero no suficiente.
  * FU <= LIU es planificable, en caso contrario no se sabe.
  */
-function LIU(fu, tasks) {
+function LIU(tasks) {
     let result = tasks.length * (Math.pow(2, 1 / tasks.length) - 1);
     return Math.ceil(result * 100) / 100;
 }
@@ -127,10 +129,47 @@ function RTA(tasks) {
     return response;
 }
 
+/**
+ * 6 - Arma el texto indicando si el sistema es o no planificable
+ * por RM y EDF en base a los calculos anteriores. 
+ */
 function isPlanable(fu, liu) {
     let result = (fu <= liu) ? "Es planificable por RM" : "No se sabe si es planificable por RM";
     result += " - ";
     result += (fu <= 1) ? "Es planificable por EDF" : "No se sabe si es planificable por EDF";
-    
+
     return result;
+}
+
+function firstEmptySlot(tasks) {
+    let slot = 1;
+    let response = [];
+
+    response.push({ task: 1, time: slot });
+
+    for (let i = 1; i < tasks.length; i++) {
+        const task = tasks[i];
+        slot = slot + task.c;
+
+        while (true) {
+            let w = task.c;
+
+            for (let j = 0; j < i; j++) {
+                w += Math.ceil(slot / tasks[j].t) * tasks[j].c;
+            }
+
+            if (slot == w)
+                break;
+
+            if (w > task.d)
+                break;
+
+            slot = w;
+            w = 0;
+        }
+
+        response.push({ task: i + 1, time: slot });
+    }
+
+    return response;
 }
