@@ -25,7 +25,7 @@ function resolve(systemName, tasks) {
     let bini = BINI(tasks);
     let rta = JSON.stringify(RTA(tasks));
     let planable = isPlanable(fu, liu);
-    let slot = JSON.stringify(firstEmptySlot(tasks));
+    let slot = JSON.stringify(firstEmptySlot(tasks, RTA(tasks)));
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\n1- Hiperperiodo: ${hiperperiodo}`);
@@ -141,35 +141,25 @@ function isPlanable(fu, liu) {
     return result;
 }
 
-function firstEmptySlot(tasks) {
-    let slot = 1;
-    let response = [];
+/**
+ * 7 - Determinar, para cada subsistema, el primer instante con una unidad de tiempo disponible. 
+ */
+function firstEmptySlot(tasks, rta) {
+    const SLOT = 1;
+    let RTAFromLastTask = rta[rta.length - 1].time;
 
-    response.push({ task: 1, time: slot });
+    while (true) {
+        let w = SLOT;
 
-    for (let i = 1; i < tasks.length; i++) {
-        const task = tasks[i];
-        slot = slot + task.c;
-
-        while (true) {
-            let w = task.c;
-
-            for (let j = 0; j < i; j++) {
-                w += Math.ceil(slot / tasks[j].t) * tasks[j].c;
-            }
-
-            if (slot == w)
-                break;
-
-            if (w > task.d)
-                break;
-
-            slot = w;
-            w = 0;
+        for (let j = 0; j < tasks.length; j++) {
+            w += Math.ceil(RTAFromLastTask / tasks[j].t) * tasks[j].c;
         }
 
-        response.push({ task: i + 1, time: slot });
+        if (RTAFromLastTask == w)
+            break;
+
+        RTAFromLastTask = w;
     }
 
-    return response;
+    return RTAFromLastTask;
 }
