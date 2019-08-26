@@ -25,7 +25,7 @@ function resolve(systemName, tasks) {
     let bini = BINI(tasks);
     let rta = JSON.stringify(RTA(tasks));
     let planable = isPlanable(fu, liu);
-    let slot = JSON.stringify(firstEmptySlot(tasks, RTA(tasks)));
+    let slot = firstEmptySlot(tasks, RTA(tasks));
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\n1- Hiperperiodo: ${hiperperiodo}`);
@@ -34,7 +34,7 @@ function resolve(systemName, tasks) {
     console.log(`\n4- Cota de Bini: ${bini}`);
     console.log(`\n5- Tiempos de Respuesta: ${rta}`);
     console.log(`\n6- Es Planificable?: ${planable}`);
-    console.log(`\n7- Primera ranura vacia: ${slot}`);
+    console.log(`\n7- Primera ranura vacia: ${slot - 1} - ${slot}`);
     console.log('\n----------------------------------------------------------');
 }
 
