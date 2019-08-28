@@ -26,6 +26,7 @@ function resolve(systemName, tasks) {
     let rta = JSON.stringify(RTA(tasks));
     let planable = isPlanable(fu, liu);
     let slot = firstEmptySlot(tasks, RTA(tasks));
+    let kp = JSON.stringify(k_planificabilidad(tasks, RTA(tasks)));
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\n1- Hiperperiodo: ${hiperperiodo}`);
@@ -35,6 +36,7 @@ function resolve(systemName, tasks) {
     console.log(`\n5- Tiempos de Respuesta: ${rta}`);
     console.log(`\n6- Es Planificable?: ${planable}`);
     console.log(`\n7- Primera ranura vacia: ${slot - 1} - ${slot}`);
+    console.log(`\n8- K Planificabilidad: ${kp}`);
     console.log('\n----------------------------------------------------------');
 }
 
@@ -162,4 +164,40 @@ function firstEmptySlot(tasks, rta) {
     }
 
     return RTAFromLastTask;
+}
+
+function k_planificabilidad(tasks, rta) {
+    let time = tasks[0].c;
+    let response = [];
+
+    response.push({ task: 1, k: tasks[0].d - tasks[0].c });
+
+    for (let i = 1; i < tasks.length; i++) {
+        const task = tasks[i];
+        time = time + task.c;
+        let k = 1;
+        let kverdadero = 0;
+
+        while (true) {
+            let w = task.c + k;
+
+            for (let j = 0; j < i; j++) {
+                w += Math.ceil(time / tasks[j].t) * tasks[j].c;
+            }
+
+            if (time == w) {
+                kverdadero = k;
+                k += 1;
+            }
+            if (w > task.d)
+                break;
+
+            time = w;
+            w = 0;
+        }
+        
+        response.push({ task: i + 1, k: kverdadero });
+    }
+
+    return response;
 }
