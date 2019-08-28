@@ -167,7 +167,7 @@ function firstEmptySlot(tasks, rta) {
 }
 
 /**
- * K Planificabilidad
+ * 8 - K Planificabilidad
  * Determinar, para cada subsistema, el máximo retraso admisible a partir del instante crítico.
  */
 function kPlanning(tasks) {
