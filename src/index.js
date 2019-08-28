@@ -26,7 +26,7 @@ function resolve(systemName, tasks) {
     let rta = JSON.stringify(RTA(tasks));
     let planable = isPlanable(fu, liu);
     let slot = firstEmptySlot(tasks, RTA(tasks));
-    let kp = JSON.stringify(k_planificabilidad(tasks, RTA(tasks)));
+    let kp = JSON.stringify(kPlanning(tasks));
 
     console.log(`\nPunto: ${systemName}`);
     console.log(`\n1- Hiperperiodo: ${hiperperiodo}`);
@@ -166,7 +166,11 @@ function firstEmptySlot(tasks, rta) {
     return RTAFromLastTask;
 }
 
-function k_planificabilidad(tasks, rta) {
+/**
+ * K Planificabilidad
+ * Determinar, para cada subsistema, el máximo retraso admisible a partir del instante crítico.
+ */
+function kPlanning(tasks) {
     let time = tasks[0].c;
     let response = [];
 
@@ -195,7 +199,7 @@ function k_planificabilidad(tasks, rta) {
             time = w;
             w = 0;
         }
-        
+
         response.push({ task: i + 1, k: kverdadero });
     }
 
